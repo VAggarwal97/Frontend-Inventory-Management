@@ -29,7 +29,7 @@ body {
 
 h1 {
   text-align: center;
-  margin: 0px;
+  margin: 20px;
   color: #0073e6;
   font-size: 30px;
   font-weight: 900;
@@ -55,7 +55,7 @@ input[type="date"] {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 100%; /* Change width to 100% for full-width responsiveness */
+  width: 400px; /* Change width to 100% for full-width responsiveness */
   margin: 10px 0; /* Adjust margin for spacing */
 }
 
@@ -169,7 +169,7 @@ tr.zero-quantity {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 50%;
+    width: 200px;
     margin: 10px 0;
   }
 
@@ -184,7 +184,6 @@ tr.zero-quantity {
 
 .stockout {
   margin-top: 100px;
-  max-width:800px;
 }
 
 /* Add styles for the "Edit" and "Delete" buttons */
@@ -212,4 +211,10 @@ tr.zero-quantity {
 .delete-product:hover {
   background-color: #919191;
   color: #002701;
+}
+.totalamount {
+  font-weight: 900;
+  font-size: 15px;
+  text-align: center;
+  padding: 20px;
 }
