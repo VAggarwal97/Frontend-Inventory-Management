@@ -13,6 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const printInventoryButton = document.getElementById("printInventoryButton");
   const printDeletedInventoryButton = document.getElementById("printDeletedInventoryButton");
 
+  const currentDate = new Date();
+  const currentDateFormatted = currentDate.toISOString().slice(0, 10); // Format: YYYY-MM-DD
+  productDateInput.value = currentDateFormatted;
+
   // Event listener for the "Print Inventory" button
   printInventoryButton.addEventListener("click", function () {
     printInventory();
@@ -120,16 +124,19 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
       <hr />
       <div class="table">${generateInventoryTableForPrinting()}</div>
+      <p>Total Amount of All Products: Rs ${calculateTotalAmount().toFixed(2)}</p>
     </body>
   </html>
-  
   `);
 
     printWindow.document.close();
     printWindow.print();
   }
 
-
+  // Function to calculate total amount of all products
+  function calculateTotalAmount() {
+    return inventory.reduce((total, product) => total + product.quantity * product.price, 0);
+  }
 
   // !===================================================================================
 
@@ -269,10 +276,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const productQuantity = parseInt(productQuantityInput.value);
     const productId = productIdInput.value;
     const productPrice = parseFloat(productPriceInput.value);
-    const productDate = productDateInput.value;
+
+    // Automatically set the current date
+    const currentDate = new Date();
+    const currentDateFormatted = currentDate.toISOString().slice(0, 10); // Format: YYYY-MM-DD
+    productDateInput.value = currentDateFormatted;
 
     // Validate input
-    if (!productName || isNaN(productQuantity) || !productId || isNaN(productPrice) || !productDate) {
+    if (!productName || isNaN(productQuantity) || !productId || isNaN(productPrice) || !productDateInput.value) {
       alert("Please fill in all fields with valid data.");
       return;
     }
@@ -283,7 +294,7 @@ document.addEventListener("DOMContentLoaded", function () {
       quantity: productQuantity,
       id: productId,
       price: productPrice,
-      date: productDate,
+      date: productDateInput.value,
     };
 
     // Add the product to the inventory
@@ -294,7 +305,6 @@ document.addEventListener("DOMContentLoaded", function () {
     productQuantityInput.value = "";
     productIdInput.value = "";
     productPriceInput.value = "";
-    productDateInput.value = "";
 
     // Save the updated inventory to localStorage
     saveInventoryToLocalStorage();
@@ -308,6 +318,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Prevent form submission
     event.preventDefault();
   });
+
 
   // Event listener for removing all deleted products
   removeAllDeletedButton.addEventListener("click", function () {
