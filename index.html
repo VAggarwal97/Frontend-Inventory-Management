@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Inventory Management Dashboard</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Inventory Management Dashboard</h1>
+
+      <div class="form">
+        <label for="productName">Product Name:</label>
+        <input type="text" id="productName" placeholder="Enter product name" />
+        <label for="productQuantity">Quantity:</label>
+        <input
+          type="number"
+          id="productQuantity"
+          placeholder="Enter quantity"
+        />
+        <br>
+        <label for="productId">Product ID:</label>
+        <input type="text" id="productId" placeholder="Enter product ID" />
+        <br />
+        <label for="productPrice">Price:</label>
+        <input type="number" id="productPrice" placeholder="Enter price" />
+        <label for="productDate">Date Added:</label>
+        <input type="date" id="productDate" />
+        <button id="addProduct" style="margin-top: 25px">Add Product</button>
+      </div>
+      <br />
+      <div
+        id="totalAmount"
+        class="total-amount"
+        style="
+          text-align: center;
+          font-weight: 900;
+          font-size: 20px;
+          margin: 15px;
+        "
+      >
+        Total Amount : Rs 0.00
+      </div>
+      <table id="inventoryList">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Product ID</th>
+            <th>Price</th>
+            <th>Date Added</th>
+            <th>Total Stock Amount</th> 
+            <th>Action</th>
+          </tr>
+        </thead>
+        <br />
+        <tbody id="inventoryList">
+          <h2> Available Inventory</h2>
+          <!-- Inventory items will be displayed here -->
+        </tbody>
+      </table>
+
+      <div class="stockout">
+        <!-- Add this table to display deleted products -->
+        <h2>Out of Stock Products</h2>
+        <button
+          class="rembtn"
+          id="removeAllDeleted"
+          style="color: rgb(255, 255, 255); font-weight: 900"
+        >
+          Remove All Deleted Products form Inventory
+        </button>
+        <table id="deletedProductList">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Product ID</th>
+              <th>Price</th>
+              <th>Stock Amount</th> 
+              <th>Date Added</th>
+            </tr>
+          </thead>
+          <tbody id="deletedProductList">
+            <!-- Deleted products will be displayed here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
