@@ -2,86 +2,81 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inventory Management Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+
   <div class="container">
-    <h1 style="margin-top: 10px; margin-bottom: 10px">
-      Inventory Management Dashboard
-    </h1>
+
+    <div class="heading">
+      <h1>Inventory Management Dashboard</h1>
+    </div>
 
     <div class="form">
+
       <label for="productName">Product Name:</label>
-      <input type="text" id="productName" placeholder="Enter product name" />
+      <input type="text" id="productName" placeholder="Enter product name">
 
       <br>
-
       <label for="productQuantity">Quantity:</label>
-      <input type="number" id="productQuantity" placeholder="Enter quantity" />
+      <input type="number" id="productQuantity" placeholder="Enter quantity">
 
-      <br />
-
+      <br>
       <label for="productId">Product ID:</label>
-      <input type="text" id="productId" placeholder="Enter product ID" />
+      <input type="text" id="productId" placeholder="Enter product ID">
 
-      <br />
-
+      <br>
       <label for="productPrice">Price:</label>
-      <input type="number" id="productPrice" placeholder="Enter price" />
+      <input type="number" id="productPrice" placeholder="Enter price">
+
+      <br>
+      <label for="productDate">Date Added:</label>
+      <input type="date" id="productDate">
 
       <br>
 
-      <label for="productDate">Date Added:</label>
-      <input type="date" id="productDate" />
-
-      <button id="addProduct" style="margin-top: 25px">Add Product</button>
-
-
+      <button id="addProduct" style="margin-top: 20px;">Add Product</button>
 
     </div>
+
     <div class="printbtn">
-      <button class="pbtn1" id="printInventoryButton">
-        Print Available Products
-      </button>
+      <button class="pbtn1" id="printInventoryButton">Print Available Products</button>
       <button id="printDeletedInventoryButton">Print Deleted Inventory</button>
-
     </div>
-    <div id="totalAmount" class="total-amount" style="
-          text-align: center;
-          font-weight: 900;
-          font-size: 20px;
-          margin: 15px;
-        ">
+
+    <div id="totalAmount" class="totalamount">
       Total Amount : Rs 0.00
     </div>
-    <table id="inventoryList">
-      <thead>
-        <tr>
-          <th>Product Name</th>
-          <th>Quantity</th>
-          <th>Product ID</th>
-          <th>Price</th>
-          <th>Date Added</th>
-          <th>Total Stock Amount</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <br />
-      <tbody id="inventoryList">
-        <h2>Available Inventory</h2>
-        <!-- Inventory items will be displayed here -->
-      </tbody>
-    </table>
 
-    <div class="stockout">
-      <!-- Add this table to display deleted products -->
+    <div class="in-stock-inventory">
+      <h2>Available Products</h2>
+      <table id="inventoryList">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Product ID</th>
+            <th>Price</th>
+            <th>Date Added</th>
+            <th>Total Stock Amount</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="inventoryListBody">
+          <!-- Inventory items will be displayed here -->
+        </tbody>
+      </table>
+
+    </div>
+
+    <div class="out-stock-inventory">
       <h2>Out of Stock Products</h2>
-      <button class="rembtn" id="removeAllDeleted" style="color: rgb(255, 255, 255); font-weight: 900">
-        Remove All Deleted Products form Inventory
+      <button class="rembtn" id="removeAllDeleted">
+        Remove All Deleted Products from Inventory
       </button>
       <table id="deletedProductList">
         <thead>
@@ -90,17 +85,17 @@
             <th>Quantity</th>
             <th>Product ID</th>
             <th>Price</th>
-            <th>Stock Amount</th>
             <th>Date Added</th>
+            <th>Stock Amount</th>
           </tr>
         </thead>
-        <tbody id="deletedProductList">
+        <tbody id="deletedProductListBody">
           <!-- Deleted products will be displayed here -->
         </tbody>
       </table>
     </div>
-  </div>
 
+  </div>
   <script src="script.js"></script>
 </body>
 
