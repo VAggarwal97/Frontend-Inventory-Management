@@ -218,3 +218,30 @@ tr.zero-quantity {
   text-align: center;
   padding: 20px;
 }
+
+/* Style for the product image */
+.image-cell img {
+  align-items: center;
+  max-width: 50px; /* Adjust the maximum width as needed */
+  max-height: 50px; /* Adjust the maximum height as needed */
+  border: 1px solid #ccc; /* Add a border */
+  background-color: #f0f0f0; /* Background color for the image container */
+  color: #777; /* Text color for the placeholder */
+  text-align: center; /* Center the text horizontally */
+  padding: 5px; /* Add padding to the image container */
+}
+
+/* Style for the product image when an image is provided */
+.image-cell img[src]:not([src=""]) {
+  border: none;
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+}
+.uploadimage {
+  background-color: #0073e6;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  color: #fff;
+  padding: 8px;
+}
