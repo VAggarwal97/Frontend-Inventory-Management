@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <thead>
               <tr>
                   <th>Name</th>
+                  <th>Product Image</th>
                   <th>Quantity</th>
                   <th>Product ID</th>
                   <th>Unit Price</th>
@@ -47,9 +48,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     inventory.forEach(function (product) {
       const totalAmount = product.quantity * product.price;
+      const imageSrc = product.image || 'placeholder.png'
       tableHTML += `
           <tr>
               <td>${product.name}</td>
+
+              <td class="image-cell">
+            <img src="${imageSrc}" alt="Product Image" id="productImage-${product.id}" onclick="handleImageClick('${product.id}')">
+          </td>
+
               <td>${product.quantity}</td>
               <td>${product.id}</td>
               <td>${product.price}</td>
@@ -103,8 +110,26 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         .table{
           border: 1px solid #8f8f8f;
-          margin: 20px;
         }
+
+        .image-cell img {
+          max-width: 50px;
+          max-height: 50px;
+          border: 1px solid #ccc;
+          background-color: #f0f0f0; 
+          color: #777;
+          text-align: center;
+          padding: 5px;
+        }
+        
+        .image-cell img[src]:not([src=""]) {
+          border: none; 
+          background-color: transparent; 
+          color: inherit; 
+          padding: 0; 
+        }
+        
+        
       </style>
     </head>
     <body>
@@ -147,6 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Product Image</th>
                 <th>Quantity</th>
                 <th>Product ID</th>
                 <th>Unit Price</th>
@@ -162,6 +188,9 @@ document.addEventListener("DOMContentLoaded", function () {
       tableHTML += `
         <tr>
             <td>${product.name}</td>
+            <td class="image-cell">
+               <img src="${product.image || 'placeholder.png'}" alt="Product Image" id="productImage-${product.id}" onclick="handleImageClick('${product.id}')">
+            </td>
             <td>${product.quantity}</td>
             <td>${product.id}</td>
             <td>${product.price}</td>
@@ -215,8 +244,25 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         .table {
           border: 1px solid #8f8f8f;
-          margin: 20px;
         }
+        .image-cell img {
+          align-items: center;
+          max-width: 50px;
+          max-height: 50px;
+          border: 1px solid #ccc;
+          background-color: #f0f0f0; 
+          color: #777;
+          text-align: center;
+          padding: 5px;
+        }
+        
+        .image-cell img[src]:not([src=""]) {
+          border: none; 
+          background-color: transparent; 
+          color: inherit; 
+          padding: 0; 
+        }
+        
       </style>
     </head>
     <body>
@@ -276,47 +322,64 @@ document.addEventListener("DOMContentLoaded", function () {
     const productQuantity = parseInt(productQuantityInput.value);
     const productId = productIdInput.value;
     const productPrice = parseFloat(productPriceInput.value);
+    const productDate = productDateInput.value;
 
     // Automatically set the current date
     const currentDate = new Date();
     const currentDateFormatted = currentDate.toISOString().slice(0, 10); // Format: YYYY-MM-DD
     productDateInput.value = currentDateFormatted;
 
+    // Get the uploaded image file (if any)
+    const imageUploadInput = document.getElementById("imageUpload");
+    const uploadedImage = imageUploadInput.files[0];
+
     // Validate input
-    if (!productName || isNaN(productQuantity) || !productId || isNaN(productPrice) || !productDateInput.value) {
+    if (!productName || isNaN(productQuantity) || !productId || isNaN(productPrice) || !productDate) {
       alert("Please fill in all fields with valid data.");
       return;
     }
 
-    // Create a new product object
-    const newProduct = {
-      name: productName,
-      quantity: productQuantity,
-      id: productId,
-      price: productPrice,
-      date: productDateInput.value,
+    // Read the uploaded image as a data URL
+    const reader = new FileReader();
+    reader.onload = function () {
+      const imageDataUrl = reader.result;
+
+      // Create a new product object with image (or without image if not provided)
+      const newProduct = {
+        name: productName,
+        quantity: productQuantity,
+        id: productId,
+        price: productPrice,
+        date: productDate,
+        image: imageDataUrl || '', // Set image to an empty string if not provided
+      };
+
+      // Add the product to the inventory
+      inventory.push(newProduct);
+
+      // Clear input fields and image input
+      productNameInput.value = "";
+      productQuantityInput.value = "";
+      productIdInput.value = "";
+      productPriceInput.value = "";
+      productDateInput.value = "";
+      imageUploadInput.value = ""; // Reset the file input
+
+      // Save the updated inventory to localStorage
+      saveInventoryToLocalStorage();
+
+      // Update the inventory list
+      updateInventoryList();
+
+      // Calculate and display the total amount
+      updateTotalAmount();
+
+      // Prevent form submission
+      event.preventDefault();
     };
 
-    // Add the product to the inventory
-    inventory.push(newProduct);
-
-    // Clear input fields
-    productNameInput.value = "";
-    productQuantityInput.value = "";
-    productIdInput.value = "";
-    productPriceInput.value = "";
-
-    // Save the updated inventory to localStorage
-    saveInventoryToLocalStorage();
-
-    // Update the inventory list
-    updateInventoryList();
-
-    // Calculate and display the total amount
-    updateTotalAmount();
-
-    // Prevent form submission
-    event.preventDefault();
+    // Read the uploaded image, or set imageDataUrl to an empty string if no image is provided
+    reader.readAsDataURL(uploadedImage || new Blob());
   });
 
 
@@ -342,16 +405,24 @@ document.addEventListener("DOMContentLoaded", function () {
       const row = inventoryListBody.insertRow();
       const totalAmount = product.quantity * product.price;
       row.innerHTML = `
-              <td>${product.name}</td>
-              <td><span class="quantity">${product.quantity}</span></td>
-              <td>${product.id}</td>
-              <td>${product.price}</td>
-              <td>${product.date}</td>
-              <td class="total-amount">${totalAmount.toFixed(2)}</td>
-              <td>
-                  <button class="edit-quantity">Edit</button>
-                  <button class="delete-product">Delete</button>
-              </td>
+      <tr>
+      <td>${product.name}</td>
+
+      <td class="image-cell">
+          <img src="${product.image || 'placeholder.png'}" alt="Product Image" id="productImage-${product.id}" onclick="handleImageClick('${product.id}')">
+      </td>
+      
+      <td><span class="quantity">${product.quantity}</span></td>
+      <td>${product.id}</td>
+      <td>${product.price}</td>
+      <td>${product.date}</td>
+      <td class="total-amount">${totalAmount.toFixed(2)}</td>
+      <td>
+          <button class="edit-quantity">Edit</button>
+          <button class="delete-product">Delete</button>
+      </td>
+  </tr>
+  
           `;
 
       // Add a click event listener to the delete button
@@ -433,7 +504,10 @@ document.addEventListener("DOMContentLoaded", function () {
       const row = deletedProductListBody.insertRow();
       const totalAmount = product.quantity * product.price;
       row.innerHTML = `
-              <td>${product.name}</td>
+      <td>${product.name}</td>
+      <td class="image-cell">
+          <img class="" src="${product.image || 'placeholder.png'}" alt="Product Image" id="productImage-${product.id}" onclick="handleImageClick('${product.id}')">
+      </td>
               <td>${product.quantity}</td>
               <td>${product.id}</td>
               <td>${product.price}</td>
